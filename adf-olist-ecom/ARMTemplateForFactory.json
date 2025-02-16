@@ -7,9 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-olist-ecom"
 		},
+		"AdlsForCsv_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AdlsForCsv'"
+		},
 		"MySqlLink_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'MySqlLink'"
+		},
+		"AdlsForCsv_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saolistdata.dfs.core.windows.net/"
 		},
 		"MySqlLink_properties_typeProperties_server": {
 			"type": "string",
@@ -22,16 +30,29 @@
 		"MySqlLink_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "olistProject_havinghang"
-		},
-		"githubLink_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/arvinddhanapal/"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AdlsForCsv')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AdlsForCsv_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AdlsForCsv_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/MySqlLink')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -51,21 +72,6 @@
 						"value": "[parameters('MySqlLink_password')]"
 					},
 					"driverVersion": "v2"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/githubLink')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('githubLink_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []

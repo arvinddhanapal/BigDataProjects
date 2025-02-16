@@ -7,9 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-olist-ecom"
 		},
+		"AdlsForCsv_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AdlsForCsv'"
+		},
 		"MySqlLink_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'MySqlLink'"
+		},
+		"AdlsForCsv_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saolistdata.dfs.core.windows.net/"
 		},
 		"MySqlLink_properties_typeProperties_server": {
 			"type": "string",
@@ -22,10 +30,6 @@
 		"MySqlLink_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "olistProject_havinghang"
-		},
-		"githubLink_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/arvinddhanapal/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -54,8 +58,14 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AdlsForCsv_accountKey": {
+						"value": "[parameters('AdlsForCsv_accountKey')]"
+					},
 					"MySqlLink_password": {
 						"value": "[parameters('MySqlLink_password')]"
+					},
+					"AdlsForCsv_properties_typeProperties_url": {
+						"value": "[parameters('AdlsForCsv_properties_typeProperties_url')]"
 					},
 					"MySqlLink_properties_typeProperties_server": {
 						"value": "[parameters('MySqlLink_properties_typeProperties_server')]"
@@ -65,9 +75,6 @@
 					},
 					"MySqlLink_properties_typeProperties_username": {
 						"value": "[parameters('MySqlLink_properties_typeProperties_username')]"
-					},
-					"githubLink_properties_typeProperties_url": {
-						"value": "[parameters('githubLink_properties_typeProperties_url')]"
 					}
 				}
 			},

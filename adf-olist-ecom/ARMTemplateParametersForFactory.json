@@ -5,8 +5,14 @@
 		"factoryName": {
 			"value": "adf-olist-ecom"
 		},
+		"AdlsForCsv_accountKey": {
+			"value": ""
+		},
 		"MySqlLink_password": {
 			"value": ""
+		},
+		"AdlsForCsv_properties_typeProperties_url": {
+			"value": "https://saolistdata.dfs.core.windows.net/"
 		},
 		"MySqlLink_properties_typeProperties_server": {
 			"value": "luv43.h.filess.io"
@@ -16,9 +22,6 @@
 		},
 		"MySqlLink_properties_typeProperties_username": {
 			"value": "olistProject_havinghang"
-		},
-		"githubLink_properties_typeProperties_url": {
-			"value": "https://raw.githubusercontent.com/arvinddhanapal/"
 		}
 	}
 }
