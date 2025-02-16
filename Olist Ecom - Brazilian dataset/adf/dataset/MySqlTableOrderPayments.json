@@ -2,7 +2,7 @@
 	"name": "MySqlTableOrderPayments",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "MySqlLink",
+			"referenceName": "ls_MySql",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
