@@ -7,29 +7,33 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-olist-ecom"
 		},
-		"AdlsForCsv_accountKey": {
+		"ls_MySql_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AdlsForCsv'"
+			"metadata": "Secure string for 'password' of 'ls_MySql'"
 		},
-		"MySqlLink_password": {
+		"ls_adlsForCsv_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'MySqlLink'"
+			"metadata": "Secure string for 'accountKey' of 'ls_adlsForCsv'"
 		},
-		"AdlsForCsv_properties_typeProperties_url": {
+		"ls_Github_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://saolistdata.dfs.core.windows.net/"
+			"defaultValue": "https://raw.githubusercontent.com/arvinddhanapal/"
 		},
-		"MySqlLink_properties_typeProperties_server": {
+		"ls_MySql_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "luv43.h.filess.io"
 		},
-		"MySqlLink_properties_typeProperties_database": {
+		"ls_MySql_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "olistProject_havinghang"
 		},
-		"MySqlLink_properties_typeProperties_username": {
+		"ls_MySql_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "olistProject_havinghang"
+		},
+		"ls_adlsForCsv_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saolistdata.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
@@ -37,41 +41,373 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/AdlsForCsv')]",
+			"name": "[concat(parameters('factoryName'), '/DataFromGitToBpipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEachCsvInGit",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LookupForEcahInput",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupForEcahInput').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "CopyDataFromGitToB",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "HttpReadSettings",
+												"requestMethod": "GET"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_CsvFromGit",
+											"type": "DatasetReference",
+											"parameters": {
+												"csv_relative_url": {
+													"value": "@item().csv_relative_url",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_CsvToSink",
+											"type": "DatasetReference",
+											"parameters": {
+												"p_file_name": {
+													"value": "@item().p_file_name",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "LookupForEcahInput",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"dataset": {
+								"referenceName": "JsonGit",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "CopyDataSqlToB",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "ForEachCsvInGit",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "MySqlSource"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "MySqlTableOrderPayments",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_CsvToSink",
+								"type": "DatasetReference",
+								"parameters": {
+									"p_file_name": "olist_order_payments.csv"
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/JsonGit')]",
+				"[concat(variables('factoryId'), '/datasets/MySqlTableOrderPayments')]",
+				"[concat(variables('factoryId'), '/datasets/ds_CsvToSink')]",
+				"[concat(variables('factoryId'), '/datasets/ds_CsvFromGit')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/JsonGit')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_Github",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "BigDataProjects/refs/heads/main/Olist%20Ecom%20-%20Brazilian%20dataset/ForEachInput.json"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_Github')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MySqlTableOrderPayments')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_MySql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "MySqlTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "`olist_order_payments`"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_MySql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_CsvFromGit')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_Github",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"csv_relative_url": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@dataset().csv_relative_url",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_Github')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_CsvToSink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adlsForCsv",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"p_file_name": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().p_file_name",
+							"type": "Expression"
+						},
+						"folderPath": "Bronze",
+						"fileSystem": "olistdata"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adlsForCsv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_Github')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "AzureBlobFS",
+				"type": "HttpServer",
 				"typeProperties": {
-					"url": "[parameters('AdlsForCsv_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('AdlsForCsv_accountKey')]"
-					}
+					"url": "[parameters('ls_Github_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MySqlLink')]",
+			"name": "[concat(parameters('factoryName'), '/ls_MySql')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "MySql",
 				"typeProperties": {
-					"server": "[parameters('MySqlLink_properties_typeProperties_server')]",
+					"server": "[parameters('ls_MySql_properties_typeProperties_server')]",
 					"port": "3307",
-					"database": "[parameters('MySqlLink_properties_typeProperties_database')]",
-					"username": "[parameters('MySqlLink_properties_typeProperties_username')]",
+					"database": "[parameters('ls_MySql_properties_typeProperties_database')]",
+					"username": "[parameters('ls_MySql_properties_typeProperties_username')]",
 					"sslMode": 1,
 					"useSystemTrustStore": 0,
 					"password": {
 						"type": "SecureString",
-						"value": "[parameters('MySqlLink_password')]"
+						"value": "[parameters('ls_MySql_password')]"
 					},
 					"driverVersion": "v2"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_adlsForCsv')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_adlsForCsv_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_adlsForCsv_accountKey')]"
+					}
 				}
 			},
 			"dependsOn": []

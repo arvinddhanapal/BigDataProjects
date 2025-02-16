@@ -7,29 +7,33 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-olist-ecom"
 		},
-		"AdlsForCsv_accountKey": {
+		"ls_MySql_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AdlsForCsv'"
+			"metadata": "Secure string for 'password' of 'ls_MySql'"
 		},
-		"MySqlLink_password": {
+		"ls_adlsForCsv_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'MySqlLink'"
+			"metadata": "Secure string for 'accountKey' of 'ls_adlsForCsv'"
 		},
-		"AdlsForCsv_properties_typeProperties_url": {
+		"ls_Github_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://saolistdata.dfs.core.windows.net/"
+			"defaultValue": "https://raw.githubusercontent.com/arvinddhanapal/"
 		},
-		"MySqlLink_properties_typeProperties_server": {
+		"ls_MySql_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "luv43.h.filess.io"
 		},
-		"MySqlLink_properties_typeProperties_database": {
+		"ls_MySql_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "olistProject_havinghang"
 		},
-		"MySqlLink_properties_typeProperties_username": {
+		"ls_MySql_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "olistProject_havinghang"
+		},
+		"ls_adlsForCsv_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saolistdata.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -58,23 +62,26 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AdlsForCsv_accountKey": {
-						"value": "[parameters('AdlsForCsv_accountKey')]"
+					"ls_MySql_password": {
+						"value": "[parameters('ls_MySql_password')]"
 					},
-					"MySqlLink_password": {
-						"value": "[parameters('MySqlLink_password')]"
+					"ls_adlsForCsv_accountKey": {
+						"value": "[parameters('ls_adlsForCsv_accountKey')]"
 					},
-					"AdlsForCsv_properties_typeProperties_url": {
-						"value": "[parameters('AdlsForCsv_properties_typeProperties_url')]"
+					"ls_Github_properties_typeProperties_url": {
+						"value": "[parameters('ls_Github_properties_typeProperties_url')]"
 					},
-					"MySqlLink_properties_typeProperties_server": {
-						"value": "[parameters('MySqlLink_properties_typeProperties_server')]"
+					"ls_MySql_properties_typeProperties_server": {
+						"value": "[parameters('ls_MySql_properties_typeProperties_server')]"
 					},
-					"MySqlLink_properties_typeProperties_database": {
-						"value": "[parameters('MySqlLink_properties_typeProperties_database')]"
+					"ls_MySql_properties_typeProperties_database": {
+						"value": "[parameters('ls_MySql_properties_typeProperties_database')]"
 					},
-					"MySqlLink_properties_typeProperties_username": {
-						"value": "[parameters('MySqlLink_properties_typeProperties_username')]"
+					"ls_MySql_properties_typeProperties_username": {
+						"value": "[parameters('ls_MySql_properties_typeProperties_username')]"
+					},
+					"ls_adlsForCsv_properties_typeProperties_url": {
+						"value": "[parameters('ls_adlsForCsv_properties_typeProperties_url')]"
 					}
 				}
 			},

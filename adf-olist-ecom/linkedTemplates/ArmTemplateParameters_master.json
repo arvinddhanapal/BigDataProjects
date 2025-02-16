@@ -5,23 +5,26 @@
 		"factoryName": {
 			"value": "adf-olist-ecom"
 		},
-		"AdlsForCsv_accountKey": {
+		"ls_MySql_password": {
 			"value": ""
 		},
-		"MySqlLink_password": {
+		"ls_adlsForCsv_accountKey": {
 			"value": ""
 		},
-		"AdlsForCsv_properties_typeProperties_url": {
-			"value": "https://saolistdata.dfs.core.windows.net/"
+		"ls_Github_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/arvinddhanapal/"
 		},
-		"MySqlLink_properties_typeProperties_server": {
+		"ls_MySql_properties_typeProperties_server": {
 			"value": "luv43.h.filess.io"
 		},
-		"MySqlLink_properties_typeProperties_database": {
+		"ls_MySql_properties_typeProperties_database": {
 			"value": "olistProject_havinghang"
 		},
-		"MySqlLink_properties_typeProperties_username": {
+		"ls_MySql_properties_typeProperties_username": {
 			"value": "olistProject_havinghang"
+		},
+		"ls_adlsForCsv_properties_typeProperties_url": {
+			"value": "https://saolistdata.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""
