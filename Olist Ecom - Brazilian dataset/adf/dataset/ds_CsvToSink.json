@@ -2,7 +2,7 @@
 	"name": "ds_CsvToSink",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AdlsForCsv",
+			"referenceName": "ls_adlsForCsv",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
