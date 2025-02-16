@@ -1,0 +1,30 @@
+[
+    {
+        "csv_relative_url": "BigDataProjects/refs/heads/main/Olist%20Ecom%20-%20Brazilian%20dataset/Data/olist_customers_dataset.csv",
+        "p_file_name":"olist_customers_dataset.csv"
+    },    
+    {
+        "csv_relative_url": "BigDataProjects/refs/heads/main/Olist%20Ecom%20-%20Brazilian%20dataset/Data/olist_geolocation_dataset.csv",
+        "p_file_name":"olist_geolocation_dataset.csv"
+    },
+    {
+        "csv_relative_url": "BigDataProjects/refs/heads/main/Olist%20Ecom%20-%20Brazilian%20dataset/Data/olist_order_items_dataset.csv",
+        "p_file_name":"olist_order_items_dataset.csv"
+    },    
+    {
+        "csv_relative_url": "BigDataProjects/refs/heads/main/Olist%20Ecom%20-%20Brazilian%20dataset/Data/olist_order_reviews_dataset.csv",
+        "p_file_name":"olist_order_reviews_dataset.csv"
+    },
+    {
+        "csv_relative_url": "BigDataProjects/refs/heads/main/Olist%20Ecom%20-%20Brazilian%20dataset/Data/olist_orders_dataset.csv",
+        "p_file_name":"olist_orders_dataset.csv"
+    },
+    {
+        "csv_relative_url": "BigDataProjects/refs/heads/main/Olist%20Ecom%20-%20Brazilian%20dataset/Data/olist_products_dataset.csv",
+        "p_file_name":"olist_products_dataset.csv"
+    },
+    {
+        "csv_relative_url": "BigDataProjects/refs/heads/main/Olist%20Ecom%20-%20Brazilian%20dataset/Data/olist_sellers_dataset.csv",
+        "p_file_name":"olist_sellers_dataset.csv"
+    }
+]
