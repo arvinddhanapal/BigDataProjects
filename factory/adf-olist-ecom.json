@@ -1,9 +1,0 @@
-{
-	"name": "adf-olist-ecom",
-	"location": "uksouth",
-	"identity": {
-		"type": "SystemAssigned",
-		"principalId": "4cd6c12f-743c-41b5-9b5e-3617c5ce9fd1",
-		"tenantId": "731fc932-6084-458a-af01-6d778d82af06"
-	}
-}
