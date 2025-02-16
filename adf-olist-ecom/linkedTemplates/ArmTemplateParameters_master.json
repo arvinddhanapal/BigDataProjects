@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-olist-ecom"
+		},
+		"MySqlLink_password": {
+			"value": ""
+		},
+		"MySqlLink_properties_typeProperties_server": {
+			"value": "luv43.h.filess.io"
+		},
+		"MySqlLink_properties_typeProperties_database": {
+			"value": "olistProject_havinghang"
+		},
+		"MySqlLink_properties_typeProperties_username": {
+			"value": "olistProject_havinghang"
+		},
+		"githubLink_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/arvinddhanapal/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
