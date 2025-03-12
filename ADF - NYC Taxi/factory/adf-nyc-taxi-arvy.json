@@ -1,0 +1,9 @@
+{
+	"name": "adf-nyc-taxi-arvy",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "b0c836a7-68d5-4551-9597-90fd699cb43c",
+		"tenantId": "731fc932-6084-458a-af01-6d778d82af06"
+	}
+}
