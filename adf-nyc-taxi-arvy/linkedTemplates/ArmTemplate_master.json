@@ -7,6 +7,14 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-nyc-taxi-arvy"
 		},
+		"dest_adls_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'dest_adls'"
+		},
+		"dest_adls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://nyctaxisa2.dfs.core.windows.net/"
+		},
 		"nyc_web_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://d37ci6vzurychx.cloudfront.net/"
@@ -37,6 +45,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"dest_adls_accountKey": {
+						"value": "[parameters('dest_adls_accountKey')]"
+					},
+					"dest_adls_properties_typeProperties_url": {
+						"value": "[parameters('dest_adls_properties_typeProperties_url')]"
 					},
 					"nyc_web_properties_typeProperties_url": {
 						"value": "[parameters('nyc_web_properties_typeProperties_url')]"

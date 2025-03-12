@@ -5,6 +5,12 @@
 		"factoryName": {
 			"value": "adf-nyc-taxi-arvy"
 		},
+		"dest_adls_accountKey": {
+			"value": ""
+		},
+		"dest_adls_properties_typeProperties_url": {
+			"value": "https://nyctaxisa2.dfs.core.windows.net/"
+		},
 		"nyc_web_properties_typeProperties_url": {
 			"value": "https://d37ci6vzurychx.cloudfront.net/"
 		}
